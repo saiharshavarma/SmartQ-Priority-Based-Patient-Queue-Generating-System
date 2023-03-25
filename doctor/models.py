@@ -24,5 +24,5 @@ EXPERIENCE = (
 class Doctor(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     employee_id = models.IntegerField(unique=True)
-    speciality = models.CharField(choices=SPECIALITY)
-    experience = models.CharField(choices=EXPERIENCE)
+    speciality = models.CharField(max_length = 50, choices=SPECIALITY)
+    experience = models.CharField(max_length = 50, choices=EXPERIENCE)
