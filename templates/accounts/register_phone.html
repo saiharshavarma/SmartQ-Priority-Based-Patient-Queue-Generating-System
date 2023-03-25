@@ -1,8 +1,6 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
-<form class="signin-form" method="POST">
+<form id="contactForm" method="post">
     {% csrf_token %}
     <div class="form-group mb-3">
         <label class="label" for="phone">Phone</label>

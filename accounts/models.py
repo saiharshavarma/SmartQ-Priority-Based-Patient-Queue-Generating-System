@@ -4,10 +4,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class ProfileType(models.Model):
-    category = models.CharField(max_length=50, unique=True)
+    type = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return str(self.category)
+        return str(self.type)
 
 
 class Profile(models.Model):
