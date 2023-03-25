@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'phonenumbers',
 
     'accounts',
+    'doctor',
 ]
 
 MIDDLEWARE = [
