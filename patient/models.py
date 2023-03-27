@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import Profile
-from doctor.models import Doctor
+from doctor.models import Doctor, SPECIALITY
 
 GENDER = (
     ("Male", "Male"),
@@ -15,10 +15,17 @@ SEVERITY = (
     (5, 5),
 )
 
+PAST_HISTORY = (
+    ("Diabetes", "Diabetes"),
+    ("Hypertension", "Hypertension"),
+    ("None", "None"),
+)
+
 class Patient(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     age = models.IntegerField()
     gender = models.CharField(max_length = 50, choices=GENDER)
+    past_history = models.CharField(max_length = 50, choices=PAST_HISTORY, default="None")
 
     def __str__(self):
         return str(f'{self.profile}')
@@ -31,6 +38,7 @@ class PatientRecord(models.Model):
     appointment_time = models.TimeField()
     symptoms = models.TextField()
     severity = models.IntegerField(choices=SEVERITY)
+    speciality = models.CharField(max_length = 50, choices=SPECIALITY, null=True)
     status = models.BooleanField(default=False)
 
     def __str__(self):
