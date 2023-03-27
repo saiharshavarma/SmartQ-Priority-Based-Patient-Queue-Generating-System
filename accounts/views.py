@@ -2,11 +2,13 @@ from django.db import reset_queries
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from .models import Profile, ProfileType
+from patient.models import Patient
+from doctor.models import Doctor
 from django.contrib import messages
 from twilio.rest import Client
 
 account_sid = "AC55c9a8f627d04846c4bd32cac3c5ce42"
-auth_token = "0d00b264b64b198b9dd723371c4be7f8"
+auth_token = "b25925a5808591f1ba96645be62f6895"
 verify_sid = "VAaccccf3dea88375ee2d023708ddc8699"
 client = Client(account_sid, auth_token)
 
@@ -97,6 +99,12 @@ def register_profile(request, phone):
             profile = Profile.objects.create(
                 user=user, phone=phone, profile_type=ProfileType.objects.get(type=profile_type))
             profile.save()
+            if profile_type == "Patient":
+                patient = Patient.objects.create(profile=profile)
+                patient.save()
+            elif profile_type == "Doctor":
+                doctor = Doctor.objects.create(profile=profile)
+                doctor.save()
             return redirect('authenticate', phone=phone)
     else:
         return render(request, 'accounts/register_profile.html')

@@ -23,6 +23,8 @@ EXPERIENCE = (
 
 class Doctor(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    employee_id = models.IntegerField(unique=True)
     speciality = models.CharField(max_length = 50, choices=SPECIALITY)
     experience = models.CharField(max_length = 50, choices=EXPERIENCE)
+
+    def __str__(self):
+        return str(f'{self.profile}')

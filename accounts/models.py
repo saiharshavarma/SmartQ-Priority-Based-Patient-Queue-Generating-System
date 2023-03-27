@@ -17,4 +17,4 @@ class Profile(models.Model):
         ProfileType, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(f'{self.user.id}' + ' ' + f'{self.user.username}' + ' ' + f'{self.phone}' + ' ' + f'{self.profile_type}')
+        return str(f'{self.user.first_name}' + ' ' + f'{self.user.last_name}')
