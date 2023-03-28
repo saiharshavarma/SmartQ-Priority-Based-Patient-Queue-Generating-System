@@ -8,7 +8,7 @@ from django.contrib import messages
 from twilio.rest import Client
 
 account_sid = "AC55c9a8f627d04846c4bd32cac3c5ce42"
-auth_token = "b25925a5808591f1ba96645be62f6895"
+auth_token = "c170335832079fcebf31604ab106452e"
 verify_sid = "VAaccccf3dea88375ee2d023708ddc8699"
 client = Client(account_sid, auth_token)
 

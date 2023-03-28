@@ -1,31 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Patient, PatientRecord, PatientHistory
-from doctor.models import Doctor
+from doctor.models import Doctor, Schedule
 from accounts.models import Profile
 from .voicebot import run_bot
 import datetime
 import re
-
-TIMESLOT = {
-    "8:00" : 800,
-    "8:30" : 830,
-    "9:00" : 900,
-    "9:30" : 930,
-    "10:00" : 1000,
-    "10:30" : 1030,
-    "11:00" : 1100,
-    "11:30" : 1130,
-    "12:00" : 1200,
-    "12:30" : 1230,
-    "14:00" : 1400,
-    "14:30" : 1430,
-    "15:00" : 1500,
-    "15:30" : 1530,
-    "16:00" : 1600,
-    "16:30" : 1630,
-    "17:00" : 1700,
-    "17:30" : 1730,
-}
 
 # Create your views here.
 def home(request):
@@ -56,25 +35,96 @@ def fetchPendingAppointments(request):
 def availableDoctors(request):
     record = PatientRecord.objects.all()[0]
     doctors = Doctor.objects.filter(speciality = record.speciality)
-    current_time = datetime.time.now()
+    current_time = datetime.datetime.now()
     if current_time.minute < 30:
         nearest_half_hour = current_time.replace(minute=30, second=0, microsecond=0)
     else:
         nearest_half_hour = current_time.replace(hour=current_time.hour+1, minute=0, second=0, microsecond=0)
-    print(nearest_half_hour)
+    if nearest_half_hour.hour < 8:
+        nearest_half_hour = nearest_half_hour.replace(hour=8, minute=0, second=0, microsecond=0)
+    
+    nearest_half_hour = current_time.replace(hour = 8, minute=0, second=0, microsecond=0)
+
     available_doctor = None
     bookings_full = True
-    for doctor in doctors:
-        if nearest_half_hour == "Available":
-            available_doctor = doctor
-            bookings_full = False
+    slot_check = nearest_half_hour
+    slot_check_str = str(slot_check).split(" ")[-1][:5]
+    slot = None
+    while int(slot_check_str.split(":")[0]) < 18:
+        print(slot_check_str)
+        for doctor in doctors:
+            schedule = Schedule.objects.get_or_create(date=datetime.date.today(), doctor=doctor)
+            schedule = Schedule.objects.get(date=datetime.date.today(), doctor=doctor)
+            slot_check_str = str(slot_check).split(" ")[-1][:5]
+            slot = fetchNearestTimeSlot(schedule, slot_check_str)
+            print("Slot: ", slot)
+            if slot != None:
+                available_doctor = doctor
+                bookings_full = False
+                break
+        if available_doctor != None:
             break
+        else:
+            if slot_check.minute == 30:
+                slot_check = slot_check.replace(hour=slot_check.hour+1, minute=0, second=0, microsecond=0)
+            else:
+                slot_check = slot_check.replace(minute=30, second=0, microsecond=0)
+        slot_check_str = str(slot_check).split(" ")[-1][:5]
+    if bookings_full == True:
+        print("No slots available for today")
     context = {
         "doctor": available_doctor,
-        "time_slot": nearest_half_hour,
+        "time_slot": slot,
         "bookings_full": bookings_full,
     }
-    return render(request, "patient/availableDoctors.html", context)
+    return redirect("confirm_bookings", doctor=available_doctor.id, slot=slot)
+    # return render(request, "patient/availableDoctors.html", context)
+
+
+def confirmBooking(request, doctor, slot):
+    schedule = Schedule.objects.get(date=datetime.date.today(), doctor=doctor)
+    if slot == "schedule.slot_800":
+        schedule.slot_800 = False
+    elif slot == "schedule.slot_830":
+        schedule.slot_830 = False
+    elif slot == "schedule.slot_900":
+        schedule.slot_900 = False
+    elif slot == "schedule.slot_930":
+        schedule.slot_930 = False
+    elif slot == "schedule.slot_1000":
+        schedule.slot_100 = False
+    elif slot == "schedule.slot_1030":
+        schedule.slot_1030 = False
+    elif slot == "schedule.slot_1100":
+        schedule.slot_1100 = False
+    elif slot == "schedule.slot_1130":
+        schedule.slot_1130 = False
+    elif slot == "schedule.slot_1200":
+        schedule.slot_1200 = False
+    elif slot == "schedule.slot_1230":
+        schedule.slot_1230 = False
+    elif slot == "schedule.slot_1400":
+        schedule.slot_1400 = False
+    elif slot == "schedule.slot_1430":
+        schedule.slot_1430 = False
+    elif slot == "schedule.slot_1500":
+        schedule.slot_1500 = False
+    elif slot == "schedule.slot_1530":
+        schedule.slot_1530 = False
+    elif slot == "schedule.slot_1600":
+        schedule.slot_1600 = False
+    elif slot == "schedule.slot_1630":
+        schedule.slot_1630 = False
+    elif slot == "schedule.slot_1700":
+        schedule.slot_1700 = False
+    elif slot == "schedule.slot_1730":
+        schedule.slot_1730 = False
+    schedule.save()
+    context = {
+        "doctor": doctor,
+        "time_slot": slot,
+    }
+    return render(request, "patient/bookingConfirmed", context)
 
 
 def assign_criticality(age, gender, past_history, current_symptoms):
@@ -109,3 +159,44 @@ def assign_criticality(age, gender, past_history, current_symptoms):
         return 4
     else:
         return 5
+    
+
+def fetchNearestTimeSlot(schedule, time):
+    time_to_allot = None
+    if time == "08:00" and schedule.slot_800 == True:
+        time_to_allot = "schedule.slot_800"
+    elif time == "08:30" and schedule.slot_830 == True:
+        time_to_allot = "schedule.slot_830"
+    elif time == "09:00" and schedule.slot_900 == True:
+        time_to_allot = "schedule.slot_900"
+    elif time == "09:30" and schedule.slot_930 == True:
+        time_to_allot = "schedule.slot_930"
+    elif time == "10:00" and schedule.slot_1000 == True:
+        time_to_allot = "schedule.slot_1000"
+    elif time == "10:30" and schedule.slot_1030 == True:
+        time_to_allot = "schedule.slot_1030"
+    elif time == "11:00" and schedule.slot_1100 == True:
+        time_to_allot = "schedule.slot_1100"
+    elif time == "11:30" and schedule.slot_1130 == True:
+        time_to_allot = "schedule.slot_1130"
+    elif time == "12:00" and schedule.slot_1200 == True:
+        time_to_allot = "schedule.slot_1200"
+    elif time == "12:30" and schedule.slot_1230 == True:
+        time_to_allot = "schedule.slot_1230"
+    elif time == "14:00" and schedule.slot_1400 == True:
+        time_to_allot = "schedule.slot_1400"
+    elif time == "14:30" and schedule.slot_1430 == True:
+        time_to_allot = "schedule.slot_1430"
+    elif time == "15:00" and schedule.slot_1500 == True:
+        time_to_allot = "schedule.slot_1500"
+    elif time == "15:30" and schedule.slot_1530 == True:
+        time_to_allot = "schedule.slot_1530"
+    elif time == "16:00" and schedule.slot_1600 == True:
+        time_to_allot = "schedule.slot_1600"
+    elif time == "16:30" and schedule.slot_1630 == True:
+        time_to_allot = "schedule.slot_1630"
+    elif time == "17:00" and schedule.slot_1700 == True:
+        time_to_allot = "schedule.slot_1700"
+    elif time == "17:30" and schedule.slot_1730 == True:
+        time_to_allot = "schedule.slot_1730"
+    return time_to_allot

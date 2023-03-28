@@ -8,4 +8,5 @@ urlpatterns = [
     path('available_doctors/', views.availableDoctors, name="check_doctor_availability"),
     path('input/', views.input, name="input"),
     path('inputSymptoms/', views.inputSymptoms, name="input"),
+    path('confirm_bookings/<doctor>/<slot>', views.confirmBooking, name="confirm_bookings")
 ]
