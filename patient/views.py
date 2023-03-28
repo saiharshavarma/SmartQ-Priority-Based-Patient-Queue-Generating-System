@@ -76,13 +76,16 @@ def availableDoctors(request):
         "doctor": available_doctor,
         "time_slot": slot,
         "bookings_full": bookings_full,
+        "time": slot_check,
     }
-    return redirect("confirm_bookings", doctor=available_doctor.id, slot=slot)
-    # return render(request, "patient/availableDoctors.html", context)
+    # return redirect("confirm_bookings", doctor=available_doctor.id, slot=slot, time=slot_check)
+    return render(request, "patient/availableDoctors.html", context)
 
 
-def confirmBooking(request, doctor, slot):
+def confirmBooking(request, doctor, slot, time):
     schedule = Schedule.objects.get(date=datetime.date.today(), doctor=doctor)
+    record = PatientRecord.objects.get(patient=Patient.objects.get(profile=Profile.objects.get(user=request.user)))
+    doctor = Doctor.objects.get(id=doctor)
     if slot == "schedule.slot_800":
         schedule.slot_800 = False
     elif slot == "schedule.slot_830":
@@ -120,6 +123,10 @@ def confirmBooking(request, doctor, slot):
     elif slot == "schedule.slot_1730":
         schedule.slot_1730 = False
     schedule.save()
+    record.doctor = doctor
+    record.appointment_date = datetime.date.today()
+    record.appointment_time = time
+    record.save()
     context = {
         "doctor": doctor,
         "time_slot": slot,

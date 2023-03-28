@@ -33,16 +33,16 @@ class Patient(models.Model):
 
 class PatientRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
-    appointment_date = models.DateField()
-    appointment_time = models.TimeField()
+    doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING, null=True, blank=True)
+    appointment_date = models.DateField(null=True, blank=True)
+    appointment_time = models.TimeField(null=True, blank=True)
     symptoms = models.TextField()
     severity = models.IntegerField(choices=SEVERITY)
     speciality = models.CharField(max_length = 50, choices=SPECIALITY, null=True)
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(f'{self.pk}' + f'{self.patient.profile}' + f'{self.doctor.profile}')
+        return str(f'{self.pk}' + ' ' + f'{self.patient.profile}')
 
 
 class PatientHistory(models.Model):
