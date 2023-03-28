@@ -1,0 +1,127 @@
+.enter-phone-number {
+  position: absolute;
+  top: 399px;
+  left: 669px;
+  font-size: var(--font-size-21xl);
+  font-weight: 500;
+  color: var(--color-darkgray);
+}
+
+.group-child {
+  border-radius: var(--br-22xl);
+  background-color: var(--color-whitesmoke);
+}
+
+.group-child,
+.group-wrapper,
+.macbook-pro-16-2-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 712px;
+  height: 148px;
+}
+
+.macbook-pro-16-2-inner {
+  top: 481px;
+  left: 508px;
+}
+
+.macbook-pro-16-2-child {
+  position: absolute;
+  top: 504px;
+  left: 529px;
+  border-radius: var(--br-lgi);
+  background-color: var(--color-white);
+  width: 157px;
+  height: 101px;
+}
+
+.div3,
+.div4 {
+  position: absolute;
+  top: 517px;
+  left: 580px;
+  font-weight: 500;
+}
+
+.div4 {
+  left: 713px;
+}
+
+.macbook-pro-16-2-item {
+  position: absolute;
+  top: 554.5px;
+  left: 541.83px;
+  width: 25.28px;
+  height: 13.74px;
+}
+
+.macbook-pro-16-2-child1 {
+  position: absolute;
+  top: 514.99px;
+  left: 824.5px;
+  width: 3.5px;
+  height: 80.02px;
+}
+
+.smartqlogo-1-icon9 {
+  position: absolute;
+  top: 35px;
+  left: 701px;
+  width: 325px;
+  height: 197px;
+  object-fit: cover;
+}
+
+.group-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 149px;
+  height: 149px;
+  cursor: pointer;
+}
+
+.get-otp,
+.group-inner {
+  position: absolute;
+  top: 56px;
+  left: 13px;
+}
+
+.group-inner {
+  top: 94.5px;
+  left: 64px;
+  width: 21px;
+  height: 3px;
+}
+
+.ellipse-parent,
+.group-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 149px;
+  height: 149px;
+}
+
+.group-div {
+  top: 692px;
+  left: 789px;
+  text-align: center;
+  font-size: var(--font-size-11xl);
+  color: var(--color-white);
+}
+
+.macbook-pro-16-2 {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1117px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-41xl);
+  color: var(--color-black);
+  font-family: var(--font-euclid-circular-a);
+}

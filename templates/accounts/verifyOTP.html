@@ -2,10 +2,17 @@
 {% load static %}
 {% block content %}
 
-<form method="POST">
+<link rel="stylesheet" href="{% static 'css/verifyOTP.css' %}" />
+
+<form class="macbook-pro-16-3" method="POST">
     {% csrf_token %}
-    <input type="text" name="otp">
-    <input type="submit">
+    <div class="macbook-pro-16-3-child"></div>
+    <div class="div1">{{ phone }}</div>
+    <img class="smartqlogo-1-icon4" alt="" src="{% static 'images/public/smartqlogo-1@2x.png'%}" />
+    <img class="macbook-pro-16-3-child1" alt="" src="{% static 'images/public/ellipse-71.svg'%}" id="ellipse" />
+    <button class="login">LOGIN</button>
+    <img class="macbook-pro-16-3-child2" alt="" src="./public/vector-3.svg" />
+    <input class="enter-otp-received" name="otp" placeholder="Enter OTP Received">
 </form>
 
 {% endblock content %}

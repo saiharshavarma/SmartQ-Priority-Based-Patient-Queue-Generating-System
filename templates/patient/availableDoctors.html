@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/availableDoctors.css' %}" />
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Euclid Circular A:wght@400;500;700&display=swap" />
+
+<div class="macbook-pro-16-6">
+  <div class="doctor-card">
+    <div class="doctor-name">Dr. {{ doctor.profile }}</div>
+    <div class="doctor-experience">MBBS | {{ doctor.experience }}</div>
+    <span class="availability">Available Today</span>
+    <div class="card">
+      <div class="image"><img src="{% static 'images/public/image-2@2x.png' %}"></div>
+      <div class="description">
+        <div class="services">
+          <div class="speciality" style="display: flex; align-items: center;">
+            <div>
+              Speciality: <br>
+              <div style="display: flex; align-items: center;">
+                <img src="{% static 'images/public/Ellipse 8.jpg' %}" class="bullet"> {{ doctor.speciality }}
+              </div>
+            </div>
+          </div>
+          <div class="cost">
+            <div style="font-size: 1.7em">Rs. 200</div> &nbsp;/ visit
+          </div>
+        </div>
+        <br>
+        <div class="slot">
+          <div class="details">Slot Details: {{ date }} {{ time }}</div>
+          <div class="book">
+            <a class="booking"
+              href="{% url 'confirm_bookings' doctor=doctor.id slot=time_slot time=time rescheduling=resheduling %}">BOOK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

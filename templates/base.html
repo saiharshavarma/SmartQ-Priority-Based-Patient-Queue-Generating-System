@@ -9,13 +9,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-
-    <title>Femme Succour</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link href="https://fonts.cdnfonts.com/css/euclid-circular-a" rel="stylesheet">
+    <title>SmartQ</title>
 </head>
 
 <body>
+
+    {% include 'navbar.html' %}
+
     {% block content %}
     {% endblock content %}
+
 </body>
 
 </html>

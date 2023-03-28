@@ -1,0 +1,132 @@
+.macbook-pro-16-3-child {
+  position: absolute;
+  top: 310px;
+  left: 508px;
+  border-radius: var(--br-22xl);
+  background-color: var(--color-whitesmoke);
+  width: 712px;
+  height: 148px;
+}
+.macbook-pro-16-3-item {
+  position: absolute;
+  top: 333px;
+  left: 529px;
+  border-radius: var(--br-lgi);
+  background-color: var(--color-white);
+  width: 157px;
+  height: 101px;
+}
+.div,
+.div1 {
+  position: absolute;
+  top: 346px;
+  left: 580px;
+  font-weight: 500;
+}
+.div1 {
+  left: 713px;
+}
+.macbook-pro-16-3-inner {
+  position: absolute;
+  top: 383.5px;
+  left: 541.83px;
+  width: 25.28px;
+  height: 13.74px;
+}
+.smartqlogo-1-icon4 {
+  position: absolute;
+  top: 35px;
+  left: 701px;
+  width: 325px;
+  height: 197px;
+  object-fit: cover;
+}
+.macbook-pro-16-3-child1 {
+  position: absolute;
+  top: 830px;
+  left: 789px;
+  width: 149px;
+  height: 149px;
+  cursor: pointer;
+}
+.login {
+  position: absolute;
+  top: 886px;
+  left: 815px;
+  font-size: var(--font-size-11xl);
+  color: var(--color-white);
+}
+.macbook-pro-16-3-child2 {
+  position: absolute;
+  top: 924.5px;
+  left: 853px;
+  width: 21px;
+  height: 3px;
+}
+.enter-otp-received {
+  position: absolute;
+  top: 518px;
+  left: 679px;
+  font-size: var(--font-size-21xl);
+  font-weight: 500;
+  color: var(--color-darkgray);
+  text-align: center;
+}
+.macbook-pro-16-3-child3 {
+  position: absolute;
+  top: 600px;
+  left: 508px;
+  border-radius: var(--br-22xl);
+  background-color: var(--color-whitesmoke);
+  width: 712px;
+  height: 148px;
+}
+.macbook-pro-16-3-child4,
+.macbook-pro-16-3-child5,
+.macbook-pro-16-3-child6,
+.macbook-pro-16-3-child7,
+.macbook-pro-16-3-child8 {
+  position: absolute;
+  top: 623px;
+  left: 547px;
+  border-radius: var(--br-lgi);
+  background-color: var(--color-white);
+  width: 101px;
+  height: 101px;
+}
+.macbook-pro-16-3-child5,
+.macbook-pro-16-3-child6,
+.macbook-pro-16-3-child7,
+.macbook-pro-16-3-child8 {
+  left: 680px;
+}
+.macbook-pro-16-3-child6,
+.macbook-pro-16-3-child7,
+.macbook-pro-16-3-child8 {
+  top: 624px;
+  left: 813px;
+}
+.macbook-pro-16-3-child7,
+.macbook-pro-16-3-child8 {
+  left: 946px;
+}
+.macbook-pro-16-3-child8 {
+  left: 1079px;
+}
+.div2 {
+  position: absolute;
+  top: 636px;
+  left: 580px;
+  font-weight: 500;
+}
+.macbook-pro-16-3 {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1117px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-41xl);
+  color: var(--color-black);
+  font-family: var(--font-euclid-circular-a);
+}

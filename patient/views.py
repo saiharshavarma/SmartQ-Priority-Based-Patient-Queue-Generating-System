@@ -40,6 +40,9 @@ def availableDoctors(request):
         nearest_half_hour = current_time.replace(minute=30, second=0, microsecond=0)
     else:
         nearest_half_hour = current_time.replace(hour=current_time.hour+1, minute=0, second=0, microsecond=0)
+    
+    print(nearest_half_hour)
+
     if nearest_half_hour.hour < 8:
         nearest_half_hour = nearest_half_hour.replace(hour=8, minute=0, second=0, microsecond=0)
     
@@ -93,8 +96,9 @@ def availableDoctors(request):
         "doctor": available_doctor,
         "time_slot": slot,
         "bookings_full": bookings_full,
-        "time": slot_check,
+        "time": slot_check_str,
         "resheduling": rescheduling,
+        "date": datetime.date.today(),
     }
     # return redirect("confirm_bookings", doctor=available_doctor.id, slot=slot, time=slot_check)
     return render(request, "patient/availableDoctors.html", context)
@@ -216,9 +220,10 @@ def confirmBooking(request, doctor, slot, time, rescheduling):
 
     context = {
         "doctor": doctor,
-        "time_slot": slot,
+        "time": time,
+        "date": datetime.date.today(),
     }
-    return render(request, "patient/bookingConfirmed", context)
+    return render(request, "patient/bookingConfirmed.html", context)
 
 
 def assign_criticality(age, gender, past_history, current_symptoms):

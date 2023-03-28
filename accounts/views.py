@@ -55,8 +55,8 @@ def verifyOTP(request, create_user, phone):
                 messages.info(request, 'Incorrect OTP')
                 print("Incorrect OTP has been entered")
                 return redirect('verifyOTP', create_user='register', phone=phone)
-    else:
-        return render(request, 'accounts/verifyOTP.html')
+    context = {"phone": phone}
+    return render(request, 'accounts/verifyOTP.html', context)
 
 
 def authenticate(request, phone):
