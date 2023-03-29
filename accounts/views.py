@@ -6,10 +6,11 @@ from patient.models import Patient
 from doctor.models import Doctor
 from django.contrib import messages
 from twilio.rest import Client
+import os
 
-account_sid = "AC55c9a8f627d04846c4bd32cac3c5ce42"
-auth_token = "c170335832079fcebf31604ab106452e"
-verify_sid = "VAaccccf3dea88375ee2d023708ddc8699"
+account_sid = "YOUR TWILIO API ACCOUNT"
+auth_token = "YOUR TWILIO API KEY"
+verify_sid = "YOUR VERIFY SID"
 client = Client(account_sid, auth_token)
 
 
@@ -65,7 +66,7 @@ def authenticate(request, phone):
     auth.login(request, user)
     print("**User has been authenticated**")
     print("User: ", request.user)
-    return redirect('profile')
+    return redirect('input')
 
 
 def register_phone(request):

@@ -1,39 +1,76 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Patient, PatientRecord, PatientHistory
 from doctor.models import Doctor, Schedule
 from accounts.models import Profile
 from .voicebot import run_bot
+from .speciality import medDepart
 import datetime
 import re
+import pickle
 
 # Create your views here.
 def home(request):
     return render(request, 'patient/home.html')
 
 
+@login_required(login_url='login')
 def input(request):
     return render(request, "patient/voicebot.html")
 
 
+@login_required(login_url='login')
 def inputSymptoms(request):
     profile = Profile.objects.get(user=request.user)
     patient = Patient.objects.get(profile=profile)
     symptoms = run_bot(patient.profile)
-    speciality = None # fetched from the model based on the symptoms
-    severity = assign_criticality(patient.age, patient.gender, patient.past_history, symptoms)
-    record = PatientRecord.objects.create(patient=patient, symptoms=symptoms, severity=severity)
+    speciality = medDepart(symptoms) # fetched from the model based on the symptoms
+
+    if "fever" in symptoms:
+        fever = 'Yes'
+    else:
+        fever = 'No'
+    if "cough" in symptoms:
+        cough = 'Yes'
+    else:
+        cough = 'No'
+    if "sore throat" in symptoms:
+        sore_throat = 'Yes'
+    else:
+        sore_throat = 'No'
+    if "difficulty breathing" in symptoms:
+        difficulty_breathing = 'Yes'
+    else:
+        difficulty_breathing = 'No'
+    if "shortness of breath" in symptoms:
+        shortness_of_breath = 'Yes'
+    else:
+        shortness_of_breath = 'No'
+    if "diabetes" in symptoms:
+        diabetes_history = 'Yes'
+    else:
+        diabetes_history = 'No'
+    if "hypertension" in symptoms:
+        hypertension_history = 'Yes'
+    else:
+        hypertension_history = 'No'
+
+    severity = predictCriticality(patient.age, patient.gender, diabetes_history, hypertension_history, fever, cough, sore_throat, difficulty_breathing, shortness_of_breath)
+    record = PatientRecord.objects.create(patient=patient, symptoms=symptoms, speciality=speciality, severity=severity)
     record.save()
-    return redirect("check_doctor_availability", record=record)
+    return redirect("check_doctor_availability", record=record.id)
 
 
+@login_required(login_url='login')
 def fetchPendingAppointments(request):
     appointments = PatientRecord.objects.filter(patient=Patient.objects.get(profile=Profile.objects.get(user=request.user)), status=False)
     print(appointments)
     return render(request, "patient/fetchAppointment.html")
 
 
-def availableDoctors(request):
-    record = PatientRecord.objects.all()[0]
+@login_required(login_url='login')
+def availableDoctors(request, record):
+    record = PatientRecord.objects.filter(id=record, patient=Patient.objects.get(profile=Profile.objects.get(user=request.user)))[0]
     doctors = Doctor.objects.filter(speciality = record.speciality)
     current_time = datetime.datetime.now()
     if current_time.minute < 30:
@@ -104,9 +141,10 @@ def availableDoctors(request):
     return render(request, "patient/availableDoctors.html", context)
 
 
+@login_required(login_url='login')
 def confirmBooking(request, doctor, slot, time, rescheduling):
     schedule = Schedule.objects.get(date=datetime.date.today(), doctor=doctor)
-    record = PatientRecord.objects.get(patient=Patient.objects.get(profile=Profile.objects.get(user=request.user)))
+    record = list(PatientRecord.objects.filter(patient=Patient.objects.get(profile=Profile.objects.get(user=request.user))))[0]
     doctor = Doctor.objects.get(id=doctor)
 
     if rescheduling == "True":
@@ -258,7 +296,64 @@ def assign_criticality(age, gender, past_history, current_symptoms):
         return 4
     else:
         return 5
-    
+
+
+def predictCriticality(age = 40, gender = 'Male',	diabetes_history = 'No',	hypertension_history = 'No',
+                        fever = 'Yes',	cough = 'Yes',	sore_throat = 'No',	difficulty_breathing = 'No',
+                        shortness_of_breath = 'No'):
+    pickled_model = pickle.load(open('patient/criticality_model.pkl', 'rb'))
+    gen = 1
+    dh = 0
+    hh = 0
+    fev = 1
+    cough = 1
+    stt = 0
+    db = 0
+    sob = 0
+    if gender == 'Male':
+        gen = 1
+    else:
+        gen = 0
+    if diabetes_history == "Yes":
+        dh = 1
+    else:
+        dh = 0
+    if hypertension_history == "Yes":
+        hh = 1
+    else:
+        hh = 0
+    if fever == "Yes":
+        fev = 1
+    else:
+        fev = 0
+    if cough == "Yes":
+        cough = 1
+    else:
+        cough = 0
+    if sore_throat == "Yes":
+        stt = 1
+    else:
+        stt = 0
+    if difficulty_breathing == "Yes":
+        db = 1
+    else:
+        db = 0
+    if shortness_of_breath == "Yes":
+        sob = 1
+    else:
+        sob = 0
+    list = pickled_model.predict([[age, gen, dh, hh, fev, cough, stt, db, sob]])
+    if list[0] == 1:
+        return 1
+    elif list[0] == 2:
+        return 2
+    elif list[0] == 3:
+        return 3
+    elif list[0] == 4:
+        return 4
+    else:
+        return 5
+  
 
 def fetchNearestTimeSlot(schedule, time):
     time_to_allot = None

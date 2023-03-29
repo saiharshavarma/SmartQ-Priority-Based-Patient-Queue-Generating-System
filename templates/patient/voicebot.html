@@ -3,62 +3,27 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/voicebot.css' %}" />
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Euclid Circular A:wght@400;500;700&display=swap" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<style>
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #222;
+
+
+<!-- mic image at center -->
+<div class="mic">
+  <a href="{% url 'inputSymptoms' %}">
+    <img src="{% static 'images/public/mic.png'%}" alt="mic" class="mic inactive" onclick="func()">
+    <img src="{% static 'images/public/MICactive.png'%}" alt="mic" class="mic active" style="display:none;">
+  </a>
+</div>
+<div class="gif">
+  <img src="{% static 'images/public/aZJ6Z.gif'%}" alt="gif" class="gif active" style="display: none;">
+</div>
+<div class="centertext">
+  <h1>CLICK HERE TO START SPEAKING</h1>
+</div>
+
+<script>
+  function func() {
+    document.getElementsByClassName("active").style.display = "flex";
+    document.getElementsByClassName("inactive").style.display = "none";
   }
-
-  .circle {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #fff;
-    animation: pulse 2s linear infinite;
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(0);
-      opacity: 0.0;
-    }
-
-    50% {
-      opacity: 1.0;
-    }
-
-    100% {
-      transform: scale(1.5);
-      opacity: 0.0;
-    }
-  }
-</style>
-</head>
-
-<body>
-  <center>
-    <div class="macbook-pro-16-4">
-      <img class="smartqlogo-1-icon3" alt="" src="{% static 'images/public/smartqlogo-1@2x.png'%}" />
-      <img class="macbook-pro-16-4-child" alt="" src="{% static 'images/public/group-9.svg'%}" />
-      <div class="click-to-start" id="cLICKTOSTART">CLICK TO START TALKING</div>
-      <img class="macbook-pro-16-4-item" alt="" src="{% static 'images/public/vector-3.svg'%}" />
-      <img class="macbook-pro-16-4-inner" alt="" src="{% static 'images/public/mask-group@2x.png'%}" />
-    </div>
-  </center>
-
-  <div class="container">
-    <div class="circle"></div>
-  </div>
-
-</body>
-
-</html>
+</script>
 
 {% endblock content %}

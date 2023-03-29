@@ -1,47 +1,27 @@
-.smartqlogo-1-icon3 {
-  position: absolute;
-  top: 35px;
-  left: 701px;
-  width: 325px;
-  height: 197px;
-  object-fit: cover;
-}
-.macbook-pro-16-4-child {
-  position: absolute;
-  top: 439px;
-  left: 683px;
-  width: 362px;
-  height: 362px;
-}
-.click-to-start {
-  position: absolute;
-  top: 295px;
-  left: 679px;
-  cursor: pointer;
-}
-.macbook-pro-16-4-item {
-  position: absolute;
-  top: 865.5px;
-  left: 853px;
-  width: 21px;
-  height: 3px;
-}
-.macbook-pro-16-4-inner {
-  position: absolute;
-  top: 496px;
-  left: 740px;
-  width: 248px;
-  height: 248px;
-  object-fit: cover;
-}
-.macbook-pro-16-4 {
-  position: relative;
-  background-color: var(--color-white);
-  width: 100%;
-  height: 1117px;
-  overflow: hidden;
+.centertext {
   text-align: center;
-  font-size: var(--font-size-11xl);
-  color: var(--color-black);
-  font-family: var(--font-euclid-circular-a);
+}
+
+.mic {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mic img {
+  height: 40vh;
+  width: 40vh;
+}
+
+.gif {
+  height: 60vh;
+  width: 60vh;
+  display: flex;
+  justify-content: center;
+  top: 175px;
+  left: 500px;
+  z-index: -1;
+  position: absolute;
 }

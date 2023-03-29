@@ -1,0 +1,127 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-y: scroll;
+}
+
+.date {
+    font-size: 1em;
+    background-color: #FF3400;
+    padding: 1% 2.5%;
+    border-radius: 20px;
+    color: white;
+    font-weight: 700;
+    font-family: 'Euclid Circular A', sans-serif;
+}
+
+/* write css for class left with color EDEDED and other things so it stays at left live left navbar */
+.left {
+    display: flex;
+    align-items: end;
+    float: left !important;
+    width: 60px;
+    background-color: #ededed;
+    padding: 10px;
+    /* height till down of page */
+    height: 100vh;
+    /* fixed */
+    position: fixed;
+}
+
+/* i want margin outside images images that are in left*/
+.left img {
+    margin: 10px;
+    /* size 70% */
+    width: 80%;
+    /* images at bottom */
+    float: bottom;
+}
+
+/* class top at center and top 20% of page */
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* bg color red */
+    background-color: red;
+    /* size 100% */
+    width: 100%;
+
+}
+
+.top img {
+    /* size 70% */
+    width: 15%;
+    margin: 0px;
+}
+
+/* right is flex */
+.right {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    /* flex direc vertical */
+    flex-direction: column;
+    /* bg color green */
+    /* left margin 2% */
+    padding-top: 2%;
+    padding-left: 5%;
+    /* bg color white */
+    background-color: white;
+    /* height till down of page */
+    height: 100%;
+    /* bottom margin @% */
+    padding-bottom: 2%;
+    margin-left: 60px;
+}
+
+/* inside class right there is a image class date, make itv small */
+.right .date {
+    /* size 70% */
+    width: 15%;
+}
+
+/* table class */
+.right .table {
+    /* top margin 2% */
+    margin-top: 2%;
+    /* size 100% */
+    width: 98%;
+}
+
+.right .neeladabba {
+    /* left margin */
+    margin-left: 8%;
+    /* size 100% */
+    width: 90%;
+}
+
+.right .laaldabba {
+    /* left margin */
+    margin-left: 8%;
+    /* size 100% */
+    width: 90%;
+    /* i want it to be on top of the .right .table image */
+    position: absolute;
+
+}
+
+.centertext {
+    text-align: center;
+}
+
+.mic {
+    /* size 100% */
+    width: 60%;
+    /* aligh center */
+
+
+}

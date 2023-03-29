@@ -6,28 +6,16 @@
 
 <form class="macbook-pro-16-2" method="POST">
     {% csrf_token %}
-    <div class="enter-phone-number">Enter Phone Number</div>
-    <div class="macbook-pro-16-2-inner">
-        <div class="group-wrapper">
-            <div class="group-wrapper">
-                <div class="group-wrapper">
-                    <div class="group-child"></div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="">
+            <div class="enter-phone-number">Enter Phone Number</div>
+            <input type="text" class="form-control" name="phone" required>
         </div>
-    </div>
-    <div class="macbook-pro-16-2-child"></div>
-    <div class="div3">+91</div>
-    <input type="text" class="form-control" name="phone" placeholder="Phone Number" required>
-    <img class="macbook-pro-16-2-item" alt="" src="{% static 'images/public/vector-1.svg' %}" /><img
-        class="macbook-pro-16-2-child1" alt="" src="{% static 'images/public/vector-2.svg' %}" /><img
-        class="smartqlogo-1-icon9" alt="" src="{% static 'images/public/smartqlogo-1@2x.png' %}" />
-    <div class="group-div">
-        <div class="ellipse-parent">
-            <img class="group-item" alt="" src="{% static 'images/public/ellipse-71.svg' %}" id="ellipse" />
-            <button type="submit" class="get-top">Get
-                OTP</button>
-            <img class="group-inner" alt="" src="{% static 'images/public/vector-3.svg' %}" />
+        <div class="group-div">
+            <div class="ellipse-parent">
+                <button type="submit" class="get-top">Get
+                    OTP</button>
+            </div>
         </div>
     </div>
 </form>

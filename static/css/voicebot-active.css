@@ -1,0 +1,50 @@
+.centertext {
+  text-align: center;
+}
+
+.mic {
+  /* size 100% */
+  width: 60%;
+  /* aligh center horizontally */
+  margin-left: 30%;
+  /* align center vertically */
+  margin-top: 10%;
+  /* image size  */
+  height: 40vh;
+  width: 40vh;
+
+
+}
+
+.gif {
+  /* size 100% */
+  width: 60%;
+  /* aligh center horizontally */
+  /* align center vertically */
+  margin-top: 0%;
+  /* image size  */
+  height: 100vh;
+  width: 100vh;
+  display: flex;
+  justify-content: center;
+  right: 170px;
+
+  position: absolute;
+}
+
+.mic {
+  /* size 100% */
+  width: 60%;
+  /* aligh center horizontally */
+  margin-left: 30%;
+  /* align center vertically */
+  margin-top: 17%;
+  /* image size  */
+  height: 40vh;
+  width: 40vh;
+  /* place over .gif */
+  position: absolute;
+  /* float */
+  top: 0;
+
+}

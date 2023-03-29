@@ -4,7 +4,7 @@ import speech_recognition as sr
 import re
 
 # set up OpenAI API instance
-openai.api_key = "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"
+openai.api_key = "YOUR OPENAI API KEY"
 model_engine = "text-davinci-002"
 
 # function to convert text to speech
@@ -35,7 +35,6 @@ def generate_summary(patient_name, age, gender, past_history, current_symptoms):
         "When did the symptoms start?",
         "Are you taking any medications?",
         "Do you have any allergies?",
-        "Have you had similar symptoms in the past?"
     ]
 
 # "What other symptoms are you experiencing?"
@@ -79,4 +78,4 @@ def run_bot(patient_name):
 
     # output summary to patient
     text_to_speech(f"Thank you {patient_name} for answering the questions. Here is a summary of your symptoms: {summary}")
-    return current_symptoms, summary
+    return summary

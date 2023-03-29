@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/voicebot-active.css' %}" />
+
+<!-- center text 'CLICK HERE TO START SPEAKING'-->
+<div class="centertext">
+  <h1>CLICK HERE TO STOP SPEAKING</h1>
+</div>
+<!-- gif behind the mic image same position -->
+<div class="gif">
+  <img src="{% static 'images/public/aZJ6Z.gif'%}" alt="gif" class="gif">
+</div>
+<!-- mic image at center -->
+<div class="mic">
+  <img src="{% static 'images/public/MICactive.png'%}" alt="mic" class="mic">
+</div>
+
+{% endblock content %}
