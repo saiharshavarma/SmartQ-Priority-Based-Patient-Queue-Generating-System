@@ -56,7 +56,7 @@ def inputSymptoms(request):
         hypertension_history = 'No'
 
     severity = predictCriticality(patient.age, patient.gender, diabetes_history, hypertension_history, fever, cough, sore_throat, difficulty_breathing, shortness_of_breath)
-    record = PatientRecord.objects.create(patient=patient, symptoms=symptoms, speciality=speciality, severity=severity)
+    record = PatientRecord.objects.create(patient=patient, symptoms=symptoms, speciality=speciality, severity=5)
     record.save()
     return redirect("check_doctor_availability", record=record.id)
 
@@ -82,8 +82,6 @@ def availableDoctors(request, record):
 
     if nearest_half_hour.hour < 8:
         nearest_half_hour = nearest_half_hour.replace(hour=8, minute=0, second=0, microsecond=0)
-    
-    nearest_half_hour = current_time.replace(hour = 8, minute=0, second=0, microsecond=0)
 
     available_doctor = None
     bookings_full = True
@@ -154,64 +152,66 @@ def confirmBooking(request, doctor, slot, time, rescheduling):
         filtered_records = []
         for precord in records:
             print("Precord: ", precord)
-            if datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M:%S"), "%H:%M:%S") >= datetime.datetime.strptime(time, "%H:%M:%S"):
+            if datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%S") >= datetime.datetime.strptime(time, "%H:%M"):
                 filtered_records.append(precord)
         clashing = True
-        while clashing:
-            for counter in range(len(filtered_records)-1):
-                precord = filtered_records[counter]
-                print("precord.appointment_time", precord.appointment_time)
-                if precord.appointment_time.minute == 30:
-                    precord.appointment_time = precord.appointment_time.replace(hour=precord.appointment_time.hour+1, minute=0, second=0, microsecond=0)
-                else:
-                    precord.appointment_time = precord.appointment_time.replace(hour=precord.appointment_time.hour, minute=30, second=0, microsecond=0)
-                print("precord.appointment_time", precord.appointment_time)
-                precord.save()
+        print("filtered_records", filtered_records)
+        counter = 0
+        while counter < len(filtered_records) and clashing:
+            precord = filtered_records[counter]
+            if precord.appointment_time.minute == 30:
+                precord.appointment_time = precord.appointment_time.replace(hour=precord.appointment_time.hour+1, minute=0, second=0, microsecond=0)
+            else:
+                precord.appointment_time = precord.appointment_time.replace(hour=precord.appointment_time.hour, minute=30, second=0, microsecond=0)
+            precord.save()
+            try:
                 nextrecord = filtered_records[counter+1]
-                print("nextrecord.appointment_time", nextrecord.appointment_time)
-                if precord.appointment_time == nextrecord.appointment_time:
-                    clashing = True
-                else:
-                    clashing = False
-                print("clashing", clashing)
-                if clashing == False:
-                    if datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("08:00", "%H:%M"):
-                        schedule.slot_800 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("08:30", "%H:%M"):
-                        schedule.slot_830 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("09:00", "%H:%M"):
-                        schedule.slot_900 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("09:30", "%H:%M"):
-                        schedule.slot_930 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("10:00", "%H:%M"):
-                        schedule.slot_1000 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("10:30", "%H:%M"):
-                        schedule.slot_1030 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("11:00", "%H:%M"):
-                        schedule.slot_1100 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("11:30", "%H:%M"):
-                        schedule.slot_1130 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("12:00", "%H:%M"):
-                        schedule.slot_1200 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("12:30", "%H:%M"):
-                        schedule.slot_1230 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("14:00", "%H:%M"):
-                        schedule.slot_1400 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("14:30", "%H:%M"):
-                        schedule.slot_1430 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("15:00", "%H:%M"):
-                        schedule.slot_1500 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("15:30", "%H:%M"):
-                        schedule.slot_1530 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("16:00", "%H:%M"):
-                        schedule.slot_1600 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("16:30", "%H:%M"):
-                        schedule.slot_1630 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("17:00", "%H:%M"):
-                        schedule.slot_1700 = False
-                    elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("17:30", "%H:%M"):
-                        schedule.slot_1730 = False
-                    schedule.save()
+            except:
+                nextrecord = filtered_records[0]
+                nextrecord.appointment_time = None
+            if precord.appointment_time == nextrecord.appointment_time:
+                clashing = True
+            else:
+                clashing = False
+            if clashing == False:
+                if datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("08:00", "%H:%M"):
+                    schedule.slot_800 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("08:30", "%H:%M"):
+                    schedule.slot_830 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("09:00", "%H:%M"):
+                    schedule.slot_900 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("09:30", "%H:%M"):
+                    schedule.slot_930 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("10:00", "%H:%M"):
+                    schedule.slot_1000 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("10:30", "%H:%M"):
+                    schedule.slot_1030 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("11:00", "%H:%M"):
+                    schedule.slot_1100 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("11:30", "%H:%M"):
+                    schedule.slot_1130 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("12:00", "%H:%M"):
+                    schedule.slot_1200 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("12:30", "%H:%M"):
+                    schedule.slot_1230 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("14:00", "%H:%M"):
+                    schedule.slot_1400 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("14:30", "%H:%M"):
+                    schedule.slot_1430 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("15:00", "%H:%M"):
+                    schedule.slot_1500 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("15:30", "%H:%M"):
+                    schedule.slot_1530 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("16:00", "%H:%M"):
+                    schedule.slot_1600 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("16:30", "%H:%M"):
+                    schedule.slot_1630 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("17:00", "%H:%M"):
+                    schedule.slot_1700 = False
+                elif datetime.datetime.strptime(precord.appointment_time.strftime("%H:%M"), "%H:%M") == datetime.datetime.strptime("17:30", "%H:%M"):
+                    schedule.slot_1730 = False
+                schedule.save()
+            counter += 1
 
 
     if slot == "schedule.slot_800":

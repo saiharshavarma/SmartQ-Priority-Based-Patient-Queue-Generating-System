@@ -4,7 +4,7 @@ import speech_recognition as sr
 import re
 
 # set up OpenAI API instance
-openai.api_key = "YOUR OPENAI API KEY"
+openai.api_key = "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"
 model_engine = "text-davinci-002"
 
 # function to convert text to speech

@@ -8,9 +8,9 @@ from django.contrib import messages
 from twilio.rest import Client
 import os
 
-account_sid = "YOUR TWILIO API ACCOUNT"
-auth_token = "YOUR TWILIO API KEY"
-verify_sid = "YOUR VERIFY SID"
+account_sid = "AC55c9a8f627d04846c4bd32cac3c5ce42"
+auth_token = "53a120d117f704775d067b8c3d434cfa"
+verify_sid = "VAaccccf3dea88375ee2d023708ddc8699"
 client = Client(account_sid, auth_token)
 
 
